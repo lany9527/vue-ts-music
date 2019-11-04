@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
+    <h1>{{ name }}</h1>
     <p>{{ address }}</p>
-    <p>{{ date }}</p>
+    <p>{{ birthday }}</p>
   </div>
 </template>
 
@@ -11,9 +11,9 @@
 
   @Component
   export default class ListItem extends Vue {
-    @Prop({default: ''}) private title: string | undefined;
+    @Prop({default: ''}) private name: string | undefined;
     @Prop({default: ''}) private address: string | undefined;
-    @Prop({default: ''}) private date: string | undefined;
+    @Prop({default: ''}) private birthday: string | undefined;
   }
 </script>
 

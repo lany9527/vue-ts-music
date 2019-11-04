@@ -2,20 +2,23 @@
   <div class="home">
     <h1>{{ count }}</h1>
     <van-button type="primary" @click="increment(1)">+</van-button>
+    <pre>{{ users }}</pre>
     <list-item
-      v-for="item in list"
-      :key="item.title"
-      :title="item.title"
+      v-for="item in users"
+      :key="item.id"
+      :name="item.name"
       :address="item.address"
-      :date="item.date"
+      :birthday="item.birthday"
     ></list-item>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Getter, Mutation } from 'vuex-class';
+import { Getter, Mutation, Action, State } from 'vuex-class';
 import { Button } from 'vant';
+import { User } from '@/store/home/interface';
+
 import ListItem from './components/ListItem.vue';
 
 const namespace: string = 'home';
@@ -62,9 +65,16 @@ export default class Home extends Vue {
     },
   ];
 
-
+  @State('users') private users: User[] | undefined;
   @Getter('count', { namespace }) private count: number | undefined;
+  // @Getter('users', { namespace }) private users: any[] | undefined;
 
   @Mutation('increment', { namespace }) private increment: (() => void | undefined) | undefined;
+
+  @Action('fetchUsers', { namespace }) private fetchUsers!: () => any;
+
+  private created() {
+    this.fetchUsers().then();
+  }
 }
 </script>
