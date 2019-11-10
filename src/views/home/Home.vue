@@ -1,27 +1,27 @@
 <template>
   <div class="home">
-    <h1>{{ count }}</h1>
-    <van-button type="primary" @click="increment(1)">+</van-button>
-    <pre>{{ users }}</pre>
+<!--    <h1>{{ count }}</h1>-->
+<!--    <van-button type="primary" @click="increment(1)">+</van-button>-->
     <list-item
-      v-for="item in users"
-      :key="item.id"
-      :name="item.name"
-      :address="item.address"
-      :birthday="item.birthday"
-    ></list-item>
+      v-for="user in users"
+      :key="user.id"
+      :name="user.name"
+      :address="user.address"
+      :birthday="user.birthday"></list-item>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Getter, Mutation, Action, State } from 'vuex-class';
+import { Getter, Mutation, Action, State, namespace } from 'vuex-class';
 import { Button } from 'vant';
 import { User } from '@/store/home/interface';
 
 import ListItem from './components/ListItem.vue';
 
-const namespace: string = 'home';
+// 使用 namespace('path/to/module') 装饰器
+// 参考 https://segmentfault.com/a/1190000019906575
+const homeModule = namespace('home');
 
 interface ListState {
   title: string;
@@ -37,7 +37,7 @@ interface ListState {
 })
 export default class Home extends Vue {
   // private List: {title: string, date:string, address: string}[] = [
-  private list: ListState[] = [
+  /*private list: ListState[] = [
     {
       title: 'MTSC2019 深圳站大会',
       date: '2019 年 12 月 14 日',
@@ -63,18 +63,26 @@ export default class Home extends Vue {
       date: '2019-11-16 09:00 - 18:00',
       address: '科兴国际会议中心,深圳',
     },
-  ];
+  ];*/
+  // TODO ts computed 写法 监听users的变化 渲染页面
+    // typescript computed 写法2
+  @homeModule.State('users') private users!: User[];
+    // typescript computed 写法3
+  // @homeModule.Getter('users') private users!: User[];
+  @homeModule.Getter('count') private count!: number;
 
-  @State('users') private users: User[] | undefined;
-  @Getter('count', { namespace }) private count: number | undefined;
-  // @Getter('users', { namespace }) private users: any[] | undefined;
+  @homeModule.Mutation('increment') private increment: (() => void | undefined) | undefined;
 
-  @Mutation('increment', { namespace }) private increment: (() => void | undefined) | undefined;
-
-  @Action('fetchUsers', { namespace }) private fetchUsers!: () => any;
+  @homeModule.Action('fetchUsers') private fetchUsers!: () => any;
 
   private created() {
     this.fetchUsers().then();
   }
+
+  // typescript computed 写法1
+  // get users(): User[] {
+  //     console.log('this.$store.state.users -->', this.$store.state.home.users);
+  //     return this.$store.state.home.users;
+  // }
 }
 </script>

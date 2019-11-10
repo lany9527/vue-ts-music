@@ -7,14 +7,17 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
-  @Component
-  export default class ListItem extends Vue {
-    @Prop({default: ''}) private name: string | undefined;
-    @Prop({default: ''}) private address: string | undefined;
-    @Prop({default: ''}) private birthday: string | undefined;
-  }
+@Component
+export default class ListItem extends Vue {
+  @Prop({ type: String, default: '-'})
+  private name: string | undefined;
+  @Prop({ type: String, default: '-'})
+  private address: string | undefined;
+  @Prop({ type: String, default: '-'})
+  private birthday: string | undefined;
+}
 </script>
 
 <style scoped>
