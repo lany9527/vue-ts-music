@@ -5,6 +5,7 @@
     <list-item
       v-for="user in users"
       :key="user.id"
+      :icon="user.icon"
       :name="user.name"
       :address="user.address"
       :birthday="user.birthday"></list-item>

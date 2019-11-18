@@ -6,15 +6,7 @@ import { fetchUsers } from '@/api';
 
 const state: HomeState = {
   count: 0,
-  users: [
-    {
-      id: '2e32',
-      icon: '',
-      name: 'MTSC2019 深圳站大会',
-      address: '中国·深圳科兴科学园国际会议中心',
-      birthday: '2019 年 12 月 14 日',
-    },
-  ],
+  users: [],
 };
 
 const getters = {
